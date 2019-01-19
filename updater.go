@@ -28,7 +28,7 @@ type Updater struct {
 
 // NewUpdater ...
 func NewUpdater(appFolder string) (*Updater, error) {
-	addOnFolder := path.Join(appFolder, "Interface", "AddOns")
+	addOnFolder := path.Join(appFolder, "_retail_", "Interface", "AddOns")
 
 	_, err := os.Stat(addOnFolder)
 	if err != nil {

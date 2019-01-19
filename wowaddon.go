@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"path"
+	"regexp"
 	"strings"
 
 	"github.com/blang/semver"
@@ -70,6 +71,13 @@ func (c *WowAddOn) FindInstalledVersion() error {
 
 	c.Version.Current = currVer
 	return nil
+}
+
+func (c *WowAddOn) parseSemVer(str string) (semver.Version, error) {
+	var re = regexp.MustCompile(`\.0+([1-9]+)`)
+	str = re.ReplaceAllString(str, ".$1")
+
+	return semver.ParseTolerant(str)
 }
 
 func (c *WowAddOn) readTOC() (mapStringsOfStrings, error) {

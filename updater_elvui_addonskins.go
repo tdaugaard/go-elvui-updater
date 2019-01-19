@@ -3,8 +3,6 @@ package main
 import (
 	"fmt"
 	"net/url"
-
-	"github.com/blang/semver"
 )
 
 // NewElvUAddOnSkinsIUpdater returns a new updater for ElvUI
@@ -33,7 +31,7 @@ func NewElvUAddOnSkinsIUpdater() *WowAddOn {
 		addon.ZipURL = pageURL.ResolveReference(url).String()
 
 		version := doc.Find("p.extras:first-child > b:first-child").Text()
-		ver, err := semver.ParseTolerant(version)
+		ver, err := addon.parseSemVer(version)
 		if err != nil {
 			return err
 		}

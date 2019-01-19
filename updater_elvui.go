@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"net/url"
 	"regexp"
-
-	"github.com/blang/semver"
 )
 
 // NewElvUIUpdater returns a new updater for ElvUI
@@ -39,7 +37,7 @@ func NewElvUIUpdater() *WowAddOn {
 		}
 
 		version := rxVersion.FindStringSubmatch(relLink)[1]
-		ver, err := semver.ParseTolerant(version)
+		ver, err := addon.parseSemVer(version)
 		if err != nil {
 			return err
 		}
