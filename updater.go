@@ -2,6 +2,7 @@ package main
 
 import (
 	"archive/zip"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
@@ -9,9 +10,11 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"strings"
 	"sync"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/sqweek/dialog"
 )
 
 type mapStringsOfStrings map[string]string
@@ -47,7 +50,7 @@ func (c *Updater) SetInstallAddOns(flag bool) {
 	c.installAddOns = flag
 }
 
-func (c *Updater) executeUpdater(addon *WowAddOn) {
+func (c *Updater) executeUpdater(addon *WowAddOn, status chan string) {
 	var zipFile string
 
 	defer c.wg.Done()
@@ -102,13 +105,16 @@ func (c *Updater) executeUpdater(addon *WowAddOn) {
 		)
 	}
 
-	if addon.Version.Latest.LTE(addon.Version.Current) {
+	upToDate := addon.Version.Latest.EQ(addon.Version.Current)
+	if upToDate {
 		if !c.forceUpdate {
 			log.Printf(
 				"[%s] Up to date (Installed: %s).\n",
 				addon.Name,
 				addon.Version.Current,
 			)
+
+			status <- fmt.Sprintf("%s v%s is up to date.", addon.Name, addon.Version.Current)
 
 			return
 		}
@@ -160,6 +166,16 @@ func (c *Updater) executeUpdater(addon *WowAddOn) {
 			addon.Name,
 			err.Error(),
 		)
+	}
+
+	if installed {
+		if upToDate {
+			status <- fmt.Sprintf("%s v%s has been re-installed.", addon.Name, addon.Version.Current)
+		} else {
+			status <- fmt.Sprintf("%s v%s has been updated from v%s.", addon.Name, addon.Version.Latest, addon.Version.Current)
+		}
+	} else {
+		status <- fmt.Sprintf("%s v%s has been updated/installed.", addon.Name, addon.Version.Current)
 	}
 }
 
@@ -229,11 +245,25 @@ func (c *Updater) extractZip(addon *WowAddOn, zipFile string) error {
 
 // Check if any add-ons need updating
 func (c *Updater) Check() {
+	status := make(chan string, 100)
+
 	c.wg.Add(len(c.updaters))
 	for _, updater := range c.updaters {
-		go c.executeUpdater(updater)
+		go c.executeUpdater(updater, status)
 	}
 	c.wg.Wait()
+	close(status)
+
+	var statusStrings []string
+
+	for str := range status {
+		statusStrings = append(statusStrings, str)
+	}
+
+	dialog.
+		Message(strings.Join(statusStrings, "\n")).
+		Title("Update Status").
+		Info()
 }
 
 // SetForceUpdate ....

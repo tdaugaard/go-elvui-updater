@@ -2,12 +2,20 @@
 
 
 [[projects]]
-  digest = "1:a62f6ed230a8cd138a9efbe718e7d0b0294f139266f5f55cd942769a9aac8de2"
+  digest = "1:573fa46f8d413d4bc3f7cc5e86b2c43cb21559f4fb0a19d9874d228e28fdc07c"
   name = "github.com/PuerkitoBio/goquery"
   packages = ["."]
   pruneopts = "UT"
-  revision = "dc2ec5c7ca4d9aae063b79b9f581dd3ea6afd2b2"
-  version = "v1.4.1"
+  revision = "2d2796f41742ece03e8086188fa4db16a3a0b458"
+  version = "v1.5.0"
+
+[[projects]]
+  branch = "master"
+  digest = "1:98a7053e6f3e3808eeff7c4416c65e37f2ffd7025c4ea72169adb7df18e21887"
+  name = "github.com/TheTitanrain/w32"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "4f5cfb03fabf8c92e8de36012c944d10a5a49b19"
 
 [[projects]]
   digest = "1:66b3310cf22cdc96c35ef84ede4f7b9b370971c4025f394c89a2638729653b11"
@@ -27,14 +35,48 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:1ef52fe3c5134f18540c4ca5ee70c57f14a3c85b21e05867f0e793de006169a6"
+  digest = "1:9be00757ddfb39055a01a53b9e637b2205b9b9434ab4304b80fc7a82b961477a"
+  name = "github.com/mattn/go-gtk"
+  packages = [
+    "gdk",
+    "gdkpixbuf",
+    "gio",
+    "glib",
+    "gtk",
+    "pango",
+  ]
+  pruneopts = "UT"
+  revision = "e9a6766929f6e247feeeeac97c9e1b4fdbd25c3c"
+
+[[projects]]
+  branch = "master"
+  digest = "1:f734c43ec01de1063c0e281153c85c1a1897614aca08bd68477b7eaa8569a7fa"
+  name = "github.com/mattn/go-pointer"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "49522c3f37914a12a6813caf41f4a9e84d39ca0a"
+
+[[projects]]
+  branch = "master"
+  digest = "1:2ae27ff727fdc7e4ac6b2ff14d2b39b8315b797020f7cd520a6e63b833c12b09"
+  name = "github.com/sqweek/dialog"
+  packages = [
+    ".",
+    "cocoa",
+  ]
+  pruneopts = "UT"
+  revision = "f33030e0fda52e1958a2095d9fdf7b46c997f429"
+
+[[projects]]
+  branch = "master"
+  digest = "1:1a1ecfa7b54ca3f7a0115ab5c578d7d6a5d8b605839c549e80260468c42f8be7"
   name = "golang.org/x/net"
   packages = [
     "html",
     "html/atom",
   ]
   pruneopts = "UT"
-  revision = "c39426892332e1bb5ec0a434a079bf82f5d30c54"
+  revision = "ed066c81e75eba56dd9bd2139ade88125b855585"
 
 [solve-meta]
   analyzer-name = "dep"
@@ -42,6 +84,7 @@
   input-imports = [
     "github.com/PuerkitoBio/goquery",
     "github.com/blang/semver",
+    "github.com/sqweek/dialog",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1

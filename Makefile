@@ -6,11 +6,11 @@ all: linux windows
 
 linux:
 	@mkdir bin/ 2>/dev/null || true
-	@go build -v -o "$(BIN)-$(LINUX_PLATFORM)"
+	@GOOS=linux GOARCH=amd64 go build -v -o "$(BIN)-$(LINUX_PLATFORM)"
 	@strip -s "$(BIN)-$(LINUX_PLATFORM)"
 
 windows:
-	@GOOS=windows go build -v -o "$(BIN)-win.exe"
+	@GOOS=windows GOARCH=amd64 go build -v -o "$(BIN)-windows-amd64.exe"
 
 clean:
 	@go clean

@@ -64,7 +64,7 @@ func (c *WowAddOn) FindInstalledVersion() error {
 		return fmt.Errorf("cannot find version information in TOC")
 	}
 
-	currVer, err := semver.ParseTolerant(version)
+	currVer, err := c.parseSemVer(version)
 	if err != nil {
 		return err
 	}
